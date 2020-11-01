@@ -1,0 +1,13 @@
+
+{% if environ('VER') %}
+{%-  set VER=environ('VER')  -%}
+{% else %}
+{% error "VER not set call with -e VER=XXXXXX" %}
+{% endif %}
+
+
+{% include 'mysql.yml.j2' %}
+
+---
+
+{% include 'phvsite.yml.j2' %}

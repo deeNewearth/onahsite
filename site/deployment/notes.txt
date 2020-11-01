@@ -1,0 +1,48 @@
+ENSURE CORRECT CONTEXT
+kubectl config get-contexts
+
+
+ensure custer preparedness
+
+a1) ensure ingress
+kubectl  -n ingress-nginx get svc
+
+if not installed install ingress
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/mandatory.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/provider/cloud-generic.yaml
+
+
+b1) ensure default storageclass exists
+kubectl get storageclass
+
+c) ensure cert managers are installed else
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.0/cert-manager.yaml
+
+kubectl apply -f certs.yml
+
+
+
+INSTALL PROCEDURE
+
+cd to deployment folder
+
+a) mkdir dist
+
+b) ensure secret-cloudconnect exists
+
+kubectl -n onahsite  get secrets
+
+IF not 
+
+kubectl -n onahsite create secret docker-registry secret-cloudconnect --docker-server=cloudconnect.scanrev.com:5000 --docker-username=rancher --docker-password=XXXXXXXXXXXXXXXXXXX --docker-email=dee@labizbille.com
+
+IF NOT   phv-secrets exists 
+docker run --rm -v %cd%/templates:/templates labizbille/makek8 /scripts/fromexisting /templates/secrets.yml.j2 > dist/secrets.yml
+kubectl -n onahsite apply -f dist/secrets.yml
+
+
+docker run --rm -v %cd%/templates:/templates -e VER=XXXXXXXX  labizbille/makek8 /scripts/fromexisting /templates/site.yml.j2 > dist/site.yml
+kubectl -n onahsite apply -f dist/site.yml
+

@@ -1,0 +1,306 @@
+//@import './bootstrapVariables.scss';
+@import './colors.scss';
+
+$blue:$mainBlueColor;
+
+
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+
+@import './imageDefs.scss';
+
+//convert fonts from Rima using https://onlinefontconverter.com/
+
+@mixin font($font-family, $font-file) {
+    @font-face {
+      font-family: $font-family;
+      src: url($font-file+'.eot');
+      src: url($font-file+'.eot?#iefix') format('embedded-opentype'),
+           url($font-file+'.woff') format('woff'),
+           url($font-file+'.ttf') format('truetype'),
+           url($font-file+'.svg#'+$font-family) format('svg'),
+           url($font-file+'.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+}
+
+@include font('Montserrat', './Fonts/Montserrat-Regular');
+@include font('Montserrat-Bold', './Fonts/Montserrat-Bold');
+
+body{
+    font-family: Montserrat, sans-serif;
+    color:$regularTextColor;
+    font-size: 25px;
+}
+
+
+$navLogoHeight:100px;
+
+.sitenav{
+    background-color: #f8f9faa1 !important;
+    z-index: 10;
+
+    @media (min-width: 1400px) {
+        padding-left:30px;
+        padding-right:90px;
+    
+        .nav-item{
+            margin-left:30px;
+        }
+    }
+
+    .navbar-brand{
+        background-image: url(map_get($logoImage,path));
+        background-size: cover;
+        width: #{$navLogoHeight * (map_get($logoImage,width) /map_get($logoImage,height))};
+        height:$navLogoHeight;
+    }
+
+    .nav-link{
+        color: $mainBlueColor!important;
+        font-size: 23px;
+        font-family: Montserrat, sans-serif;
+        margin-left: 20px;
+    }
+}
+
+
+
+.main{
+
+    position: absolute;
+    top:0;
+    width:100%;
+
+    .row{
+        margin:0;
+    }
+
+    .btn.btnrounded{
+        border-radius: 1.25rem;
+    }
+
+    .btn-lg.btnrounded{
+        border-radius: 2.25rem;
+    }
+
+    .linedHeader{
+        p{
+            color: $regularTextColor;
+            padding-right: 40px;
+            padding-bottom: 20px;
+            border-bottom: solid $regularTextColor 11px;
+        }
+    }
+
+    .notFullWidth{
+        margin:auto;
+        max-width:1600px;
+    }
+
+
+    .top{
+
+        .btnrounded{
+            padding: 10px 37px;
+        }
+
+        
+
+        @mixin theContent($imgUrl){
+            min-height: 400px;
+            background-size: cover;
+            color: $whiteTextColor; 
+            text-align: center; 
+            //background-position: top center;
+            padding:0;
+
+            background-image: url($imgUrl);
+            background: linear-gradient(to bottom, $landingPage_topGradient 0%,$landingPage_botGradient 100%) top center/cover no-repeat,url($imgUrl) top center/cover no-repeat;
+
+           
+
+            $myGradient: linear-gradient(to right, $landingPage_leftGradient, $landingPage_rightGrad);
+
+            .col-content{
+
+                background-image: $myGradient;
+
+                padding-top:100px;
+                padding-bottom: 50px;
+ 
+
+                margin-top: #{$navLogoHeight +100};
+
+                @include media-breakpoint-up(md){
+                    margin-top: #{$navLogoHeight +300};
+                }
+
+                .info-content{
+                    max-width: 400px;
+                    margin:auto;
+                    font-family: Montserrat-Bold, sans-serif;
+
+                    font-size: large;
+
+                    .info-data{
+                        height:18em;
+                        overflow: hidden;
+                    }
+
+                    p{
+                        margin-bottom: 1.5rem;
+                    }
+
+                    hr{
+                        margin: 40px 46px 40px 90px;
+                        border-bottom: $whiteTextColor solid 7px;
+                    }
+
+                    h2{
+                        padding-right:40px;
+                    }
+                }
+                
+            }
+
+            .colorSafe{
+                position: absolute;
+                height: 100px;
+                background-image: $myGradient;
+                width: 100%;
+                bottom: 0;
+            }
+
+        }
+
+        .rpm{
+            //background-image: url(./images/pexels-andrea-piacquadio-3768131.jpg);
+            @include theContent('./images/pexels-andrea-piacquadio-3768131.jpg');
+        } 
+        .safety{
+            //background-image: url(./images/pexels-andrea-piacquadio-3791664.jpg);
+            @include theContent('./images/pexels-andrea-piacquadio-3791664.jpg');
+        }
+    
+    }
+
+    
+    .mainSection{
+        margin-top: 200px;        
+        margin-bottom: 200px;        
+    }
+
+    .moreInfo{
+
+        @include media-breakpoint-down(md){
+            >div{
+                margin-bottom: 60px;
+            }
+        }
+
+        a{
+            color:$allParagraphTextColor;
+            text-decoration: underline;
+        }
+
+        h2{
+            margin-bottom: 30px;
+        }
+    }
+
+    .siteDescription{
+        align-items: center;
+        background-color: $grayBoxColor;
+
+        padding:72px 40px;
+
+        margin-top:5px;
+        
+    
+        p{
+            max-width: 1000px;
+            margin: auto;
+            text-align: center;
+        }
+        
+    }
+
+    .partners{
+
+        $blockHeight:300px;
+
+        >.row>div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: $blockHeight;
+        }
+
+
+        @mixin pbrand($val) {
+
+            color:$whiteTextColor;
+
+            background-color:map_get($partnerColors,$val);
+            background-image: url('./images/'+$val+'.png');
+            background-repeat: no-repeat;
+            background-size: 31%;
+            background-position: center 20%;
+
+            p{
+                margin-top: #{$blockHeight/2};
+            }
+        }
+
+        .color1{ @include pbrand('clients');}
+        .color2{ @include pbrand('monitoring');}
+        .color3{ @include pbrand('vsd');}
+        .color4{ @include pbrand('logistics');}
+        .color5{ @include pbrand('tech');}
+    }
+
+    .footer{
+
+        .contacts{
+            background-image: url('./images/contacts.jpg');
+            background-repeat: no-repeat;
+            background-position: center 14%;
+            background-size: cover;
+
+            @include media-breakpoint-up(md){
+                min-height: 628px;
+            }
+        }
+
+        .mylinks{
+            padding-top: 65px;
+
+            @include media-breakpoint-down(md){
+                text-align: center;
+            }
+        }
+
+        background-color: $mainBlueColor;
+        color:darken($whiteTextColor,30%);
+
+        margin-bottom: 0;
+        font-size: 0.6em;
+        
+        padding-bottom: 30px;
+
+        h3{
+            font-size: 1.4em;
+            color:$whiteTextColor;
+        }
+
+        ul{
+            list-style-type: none;
+            padding:0;
+        }
+    }
+    
+    
+}
+
